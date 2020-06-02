@@ -9,7 +9,7 @@ go get github.com/prongbang/bank-holiday
 ### How to use
 
 ```go
-	package main
+package main
 
 import (
 	"encoding/json"
