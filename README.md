@@ -13,7 +13,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/prongbang/bank-holiday/pkg/holiday"
 )
