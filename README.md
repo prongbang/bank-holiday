@@ -8,25 +8,120 @@ go get github.com/prongbang/bank-holiday
 
 ### How to use
 
+#### Get Financial Holiday to List
+
 ```go
 package main
 
 import (
-	"encoding/json"
-
-	"github.com/prongbang/bank-holiday/pkg/holiday"
+	bank_holiday "github.com/prongbang/bank-holiday"
 )
 
 func main() {
-    utility := holiday.NewUtility()
-    
-	year := "2563"
-	holidayData, _ := json.Marshal(utility.GetFinancialHoliday(year))
-	fmt.Println(string(holidayData))
+   utility := bank_holiday.New()
+   holidayMap := utility.GetFinancialHolidayList("2022")
 }
 ```
 
-### Results
+##### Results
+
+```json
+[
+   {
+      "name":"วันมาฆบูชา",
+      "date":"2022-02-16"
+   },
+   {
+      "name":"ชดเชยวันปิยมหาราช",
+      "date":"2022-10-24"
+   },
+   {
+      "name":"วันคล้ายวันสวรรคตพระบาทสมเด็จพระบรมชนกาธิเบศร มหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร",
+      "date":"2022-10-13"
+   },
+   {
+      "name":"วันหยุดพิเศษ",
+      "date":"2022-10-14"
+   },
+   {
+      "name":"วันอาสาฬหบูชา",
+      "date":"2022-07-13"
+   },
+   {
+      "name":"วันเฉลิมพระชนมพรรษาพระบาทสมเด็จพระเจ้าอยู่หัว",
+      "date":"2022-07-28"
+   },
+   {
+      "name":"วันหยุดพิเศษ",
+      "date":"2022-07-29"
+   },
+   {
+      "name":"วันเฉลิมพระชนมพรรษาสมเด็จพระนางเจ้าสิริกิติ์ พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง และวันแม่แห่งชาติ",
+      "date":"2022-08-12"
+   },
+   {
+      "name":"วันคล้ายวันพระบรมราชสมภพพระบาทสมเด็จพระบรมชนกาธิเบศร วันชาติ และวันพ่อแห่งชาติ มหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร  ",
+      "date":"2022-12-05"
+   },
+   {
+      "name":"ชดเชยวันรัฐธรรมนูญ",
+      "date":"2022-12-12"
+   },
+   {
+      "name":"ชดเชยวันขึ้นปีใหม่",
+      "date":"2022-01-03"
+   },
+   {
+      "name":"วันพระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกมหาราชและวันที่ระลึกมหาจักรีบรมราชวงศ์",
+      "date":"2022-04-06"
+   },
+   {
+      "name":"วันสงกรานต์",
+      "date":"2022-04-13"
+   },
+   {
+      "name":"วันสงกรานต์",
+      "date":"2022-04-14"
+   },
+   {
+      "name":"วันสงกรานต์",
+      "date":"2022-04-15"
+   },
+   {
+      "name":"ชดเชยวันแรงงานแห่งชาติ",
+      "date":"2022-05-02"
+   },
+   {
+      "name":"วันฉัตรมงคล",
+      "date":"2022-05-04"
+   },
+   {
+      "name":"ชดเชยวันวิสาขบูชา",
+      "date":"2022-05-16"
+   },
+   {
+      "name":"วันเฉลิมพระชนมพรรษา สมเด็จพระนางเจ้าสุทิดา พัชรสุธาพิมลลักษณ พระบรมราชินี",
+      "date":"2022-06-03"
+   }
+]
+```
+
+#### Get Financial Holiday to Map
+
+```go
+package main
+
+import (
+	bank_holiday "github.com/prongbang/bank-holiday"
+)
+
+func main() {
+   utility := bank_holiday.New()
+   holidayMap := utility.GetFinancialHolidayMap("2022")
+}
+```
+
+##### Results
 
 ```json
 {
@@ -54,24 +149,18 @@ func main() {
    "june":{
       "3":"วันเฉลิมพระชนมพรรษาสมเด็จพระนางเจ้าสุทิดา พัชรสุธาพิมลลักษณ พระบรมราชินี"
    },
-   "march":{
-
-   },
+   "march":{},
    "may":{
       "1":"วันแรงงานแห่งชาติ",
       "4":"วันฉัตรมงคล",
       "6":"วันวิสาขบูชา"
    },
-   "november":{
-
-   },
+   "november":{},
    "october":{
       "13":"วันคล้ายวันสวรรคตพระบาทสมเด็จพระบรมชนกาธิเบศรมหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร",
       "23":"วันปิยมหาราช"
    },
-   "september":{
-
-   }
+   "september":{}
 }
 ```
 

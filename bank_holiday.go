@@ -1,28 +1,91 @@
-package holiday
+package bank_holiday
 
 import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-const url = "https://www.bot.or.th/Thai/FinancialInstitutions/FIholiday/Pages/HolidayCalendar.aspx?y=%s"
-const caleClass = ".cal_month"
-const monthID = "#ctl00_ctl73_g_2d5ecfc7_5e54_499d_8285_2fff313ce83f_ctl00_MonthLabel%d"
+const (
+	January   = "january"
+	February  = "february"
+	March     = "march"
+	April     = "april"
+	May       = "may"
+	June      = "june"
+	July      = "july"
+	August    = "august"
+	September = "september"
+	October   = "october"
+	November  = "november"
+	December  = "december"
+	url       = "https://www.bot.or.th/Thai/FinancialInstitutions/FIholiday/Pages/HolidayCalendar.aspx?y=%d"
+	caleClass = ".cal_month"
+	monthID   = "#ctl00_ctl73_g_2d5ecfc7_5e54_499d_8285_2fff313ce83f_ctl00_MonthLabel%d"
+)
+
+var Month = map[string]string{
+	January:   "01",
+	February:  "02",
+	March:     "03",
+	April:     "04",
+	May:       "05",
+	June:      "06",
+	July:      "07",
+	August:    "08",
+	September: "09",
+	October:   "10",
+	November:  "11",
+	December:  "12",
+}
 
 type Holidays map[string]map[string]string
 
+type Holiday struct {
+	Name string `json:"name"`
+	Date string `json:"date"`
+}
+
 type Utility interface {
-	GetFinancialHoliday(year string) Holidays
+	GetFinancialHolidayList(year string) []Holiday
+	GetFinancialHolidayMap(year string) Holidays
 }
 
 type utility struct {
 }
 
-func (u *utility) GetFinancialHoliday(year string) Holidays {
-	holidayURL := fmt.Sprintf(url, year)
+// GetFinancialHolidayList implements Utility
+func (u *utility) GetFinancialHolidayList(year string) []Holiday {
+	hmap := u.GetFinancialHolidayMap(year)
+
+	var date string
+	hs := []Holiday{}
+	for month, days := range hmap {
+		for day, title := range days {
+			m := Month[month]
+			if len(day) > 1 {
+				date = fmt.Sprintf("%s-%s-%s", year, m, day)
+			} else {
+				date = fmt.Sprintf("%s-%s-0%s", year, m, day)
+			}
+			hs = append(hs, Holiday{
+				Name: title,
+				Date: date,
+			})
+		}
+	}
+
+	return hs
+}
+
+// GetFinancialHolidayList implements Utility
+func (u *utility) GetFinancialHolidayMap(year string) Holidays {
+	y, _ := strconv.Atoi(year)
+	holidayURL := fmt.Sprintf(url, y+543)
+	fmt.Println(holidayURL)
 
 	// Request the HTML page.
 	res, err := http.Get(holidayURL)
@@ -93,6 +156,6 @@ func monthMapping(month string) string {
 	}
 }
 
-func NewUtility() Utility {
+func New() Utility {
 	return &utility{}
 }
